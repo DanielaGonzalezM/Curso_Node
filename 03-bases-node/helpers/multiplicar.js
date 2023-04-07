@@ -5,7 +5,7 @@ const crearArchivo = async (base = 5, listar = false, hasta = 10) => {
   try {
     let salida,
       consola = "";
-    const nombreTxt = `tabla-${base}.txt`;
+    const nombreTxt = `./salida/tabla-${base}.txt`;
     for (let index = 1; index <= hasta; index++) {
       salida += `${base} x ${index} = ${base * index} \n`;
       consola += `${base} ${"x".green} ${index} ${"=".green} ${
