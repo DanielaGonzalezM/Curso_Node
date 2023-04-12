@@ -1,6 +1,5 @@
 require("colors");
-const { inquirerMenu } = require("./helpers/inquirer");
-const { pausa } = require("./helpers/mensajes");
+const { inquirerMenu, pausa } = require("./helpers/inquirer");
 
 // console.clear();
 const main = async () => {
