@@ -7,8 +7,8 @@ const main = async () => {
   let opt = "";
   const tareas = new Tareas();
   const tareasDB = leerDB();
-  if(tareasDB){
-    console.log(tareasDB);
+  if (tareasDB) {
+    tareas.cargarTareasFromArray(tareasDB);
   }
   await pausa();
   do {
@@ -25,7 +25,7 @@ const main = async () => {
         console.log(tareas.listadoArr);
         break;
     }
-    //guardarDB(tareas.listadoArr);
+    guardarDB(tareas.listadoArr);
 
     if (opt !== "0") await pausa();
   } while (opt !== "0");
