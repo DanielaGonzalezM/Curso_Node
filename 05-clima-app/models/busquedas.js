@@ -6,8 +6,7 @@ class Busquedas {
   }
   get paramMapbox() {
     return {
-      access_token:
-        "MY_TOKEN",
+      access_token: process.env.MAPBOX_KEY,
       proximity: "ip",
       language: "es",
     };
