@@ -1,23 +1,19 @@
-const http = require("http");
+const express = require("express")
+const app = express()
+const port = 666
 
-http
-  .createServer((request, res) => {
-    // res.writeHead(200,{'Conten-Type': 'application/json'});
-    // const persona = {
-    //     id:1,
-    //     nombre: 'Daniela'
-    // }
-    // res.write(JSON.stringify(persona));
+app.get("/", (req,res) => {
+    res.send("Hello World")
+});
 
-    res.setHeader("Content-Disposition", "Attachment; filename=cursolista.csv");
-    res.writeHead(200, { "Conten-Type": "application/csv" });
-    res.write("id, nombre \n");
-    res.write("1, Fernando \n");
-    res.write("2, Daniela \n");
-    res.write("3, Maria \n");
-    res.write("4, Bryam \n");
-    res.end();
-  })
-  .listen(666);
+app.get("/hola-mundo", (req,res) =>{
+    res.send("Hello World - 2")
+});
 
-console.log("Escuchando en puerto 666");
+app.get("*", (req,res) =>{
+    res.send("404 | Not found")
+});
+
+app.listen(port,()=>{
+    console.log(`Corriendo en puerto:${port}`);
+})
