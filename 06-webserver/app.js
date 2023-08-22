@@ -6,8 +6,12 @@ const port = 666
 
 app.use(express.static("public"))
 
- app.get("/hola-mundo", (req,res) =>{
-    res.send("Hello World - 2")
+ app.get("/generic", (req,res) =>{
+    res.sendFile(__dirname + "/public/generic.html")
+});
+
+app.get("/element", (req,res) =>{
+    res.sendFile(__dirname + "/public/element.html")
 });
 
 app.get("*", (req,res) =>{
