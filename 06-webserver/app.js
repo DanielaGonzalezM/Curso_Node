@@ -1,26 +1,36 @@
 const express = require("express");
+const hbs = require("hbs");
+
 const app = express();
 const port = 666;
 
-//TODO: require("hb")
+//Handlbars
 app.set("view engine", "hbs");
+hbs.registerPartials(__dirname + "/views/partials");
+
 // Servir contenido estático
 
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-    res.render("home",{
-        nombre:"Daniela",
-        titulo:"Curso de Node"
-    })
+  res.render("home", {
+    nombre: "Daniela",
+    titulo: "Curso de Node",
   });
-
-app.get("/generic", (req, res) => {
-  res.sendFile(__dirname + "/public/generic.html");
 });
 
-app.get("/element", (req, res) => {
-  res.sendFile(__dirname + "/public/element.html");
+app.get("/generic", (req, res) => {
+    res.render("generic", {
+      nombre: "Daniela",
+      titulo: "Curso de Node",
+    });
+});
+
+app.get("/elements", (req, res) => {
+    res.render("elements", {
+      nombre: "Daniela",
+      titulo: "Curso de Node",
+    });
 });
 
 app.get("*", (req, res) => {
