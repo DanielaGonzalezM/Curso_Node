@@ -4,3 +4,4 @@ node_modules/
 05-clima-app/.env
 05-clima-app/db/database.json
 06-webserver/.env
+07-restserver/.env
