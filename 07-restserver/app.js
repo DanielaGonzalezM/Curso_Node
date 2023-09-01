@@ -1,11 +1,5 @@
-require("dotenv").config()
-const express = require("express")
-const app = express()
+require("dotenv").config();
 
-app.get("/", (req,res)=> {
-    res.send("Holaa")
-})
-
-app.listen(process.env.PORT,()=>{
-console.log("Corriendo en puerto", process.env.PORT);
-})
+const Server = require("./models/server");
+const server = new Server();
+server.listen();
