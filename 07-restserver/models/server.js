@@ -7,7 +7,7 @@ class Server {
 
     //*Middlewares
     this.middleware();
-    
+
     //*Rutas de mi aplicación
     this.routes();
   }
@@ -19,7 +19,33 @@ class Server {
 
   routes() {
     this.app.get("/api", (req, res) => {
-      res.send("Holaa");
+      res.json({
+        msg: "get API",
+      });
+    });
+
+    this.app.put("/api", (req, res) => {
+      res.json({
+        msg: "put API",
+      });
+    });
+
+    this.app.post("/api", (req, res) => {
+      res.json({
+        msg: "post API",
+      });
+    });
+
+    this.app.delete("/api", (req, res) => {
+      res.json({
+        msg: "delete API",
+      });
+    });
+
+    this.app.patch("/api", (req, res) => {
+      res.json({
+        msg: "patch API",
+      });
     });
   }
 
