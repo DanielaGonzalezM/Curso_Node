@@ -13,8 +13,11 @@ const usuariosPut = (req, res = response) => {
 };
 
 const usuariosPost = (req, res = response) => {
+  const {nombre,edad} = req.body;
   res.status(201).json({
     msg: "post API - controlador",
+    nombre,
+    edad,
   });
 };
 const usuariosDelete = (req, res = response) => {
