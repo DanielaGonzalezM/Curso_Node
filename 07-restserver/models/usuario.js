@@ -26,6 +26,10 @@ const UsuarioSchema = Schema({
     type: Boolean,
     default: false,
   },
+  estado: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 module.exports = model("Usuario", UsuarioSchema);
