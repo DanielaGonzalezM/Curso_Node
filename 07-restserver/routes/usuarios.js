@@ -8,15 +8,13 @@ const {
   usuariosDelete,
   usuariosPatch,
 } = require("../controllers/usuarios");
-
-const { validarCampos } = require("../middlewares/validar-campos");
+const { validarCampos, validarJWT, tieneRole, esAdminRole } = require("../middlewares")
 const {
   esRoleValido,
   emailExiste,
   existeUsuarioPorId,
 } = require("../helpers/db-validators");
-const { validarJWT } = require("../middlewares/validar-jws");
-const { esAdminRole, tieneRole } = require("../middlewares/validar-roles");
+
 
 const router = Router();
 
