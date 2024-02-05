@@ -21,6 +21,7 @@ const UsuarioSchema = Schema({
     type: String,
     required: true,
     emun: ["ADMIN_ROLE", "USER_ROLE"],
+    default: "USER_ROLE"
   },
   google: {
     type: Boolean,
