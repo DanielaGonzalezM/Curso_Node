@@ -30,10 +30,8 @@ getEmpleado(id, (err, empleado) => {
   getSalario(id, (err, salario) => {
     if (err) {
         return console.log(`El empleado ${empleado.nombre} no tiene información de salario`);
-       
+
     }
     console.log(`empleado ${empleado} tiene salario: ${salario}`);
   });
 });
-
-
