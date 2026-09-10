@@ -8,3 +8,4 @@ node_modules/
 07-restserver/uploads/productos/**.*
 07-restserver/uploads/usuarios/**.*
 08-websocket-server/.env
+09-socket-colas/.env
