@@ -1,6 +1,6 @@
 const express = require("express");
 var cors = require("cors");
-
+const {socketController} = require("../sockets/controller");
 class Server {
   constructor() {
     this.app = express();
@@ -37,16 +37,7 @@ class Server {
   }
 
   sockets() {
-    this.io.on("connection", (socket) => {
-
-      socket.on("disconnect", () => {});
-
-      socket.on("enviar-mensaje", (payload, callback) => {
-        const id = 123456;
-        callback({id});
-      });
-
-    });
+    this.io.on("connection", socketController);
   }
 
   listen() {

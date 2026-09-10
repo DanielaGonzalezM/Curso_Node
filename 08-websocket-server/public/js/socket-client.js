@@ -32,7 +32,7 @@ btnEnviar.addEventListener("click", () => {
         fecha: new Date().getTime()
         };
     socket.emit("enviar-mensaje", payload, (id) => {
-        console.log("Desde el server", id);
+        console.log("callback enviado desde el cliente para ejecutarse en el server", id);
     });
 });
 
