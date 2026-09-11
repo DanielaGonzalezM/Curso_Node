@@ -9,3 +9,4 @@ node_modules/
 07-restserver/uploads/usuarios/**.*
 08-websocket-server/.env
 09-socket-colas/.env
+10-socket-chat/.env
