@@ -1,0 +1,5 @@
+{
+    "ignore": [
+        "09-socket-colas/db/*.json"
+    ]
+}
