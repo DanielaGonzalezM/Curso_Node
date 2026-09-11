@@ -6,6 +6,7 @@ const ticketsControl = new TicketsControl();
 const socketController = (socket) => {
 
     socket.emit('ultimo-ticket', ticketsControl.ultimo);
+    socket.emit('estado-actual', ticketsControl.ultimos4);
 
     socket.on('siguiente-ticket', (payload, callback) => {
         const siguiente = ticketsControl.siguiente();
@@ -21,14 +22,17 @@ const socketController = (socket) => {
             });
         }
         const ticket = ticketsControl.atenderTicket(escritorio);
+
+        socket.broadcast.emit('estado-actual', ticketsControl.ultimos4);
+
         if (!ticket) {
             callback({
                 ok: false,
                 msg: "Ya no hay tickets pendientes"
             });
-        }else{
+        } else {
             callback({
-                ok:true,
+                ok: true,
                 ticket: ticket
             })
         }
