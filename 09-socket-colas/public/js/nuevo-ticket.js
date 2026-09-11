@@ -1,7 +1,7 @@
 
 // Referencias del HTML
 const lblNuevoTicket = document.querySelector('#lblNuevoTicket');
-const btnCrear = document.querySelector('#btnCrear');
+const btnAtender = document.querySelector('#btnCrear');
 
 
 const socket = io();
@@ -9,18 +9,18 @@ const socket = io();
 
 
 socket.on('connect', () => {
-    btnCrear.disabled = false;
+    btnAtender.disabled = false;
 });
 
 socket.on('disconnect', () => {
-    btnCrear.disabled = true;
+    btnAtender.disabled = true;
 });
 
 socket.on('ultimo-ticket', (ultimoticket)=>{
         lblNuevoTicket.innerText = 'Ticket ' + ultimoticket;
 });
 
-btnCrear.addEventListener( 'click', () => {
+btnAtender.addEventListener( 'click', () => {
 
     socket.emit('siguiente-ticket', null, ( ticket ) => {
         lblNuevoTicket.innerText = ticket;
