@@ -24,6 +24,7 @@ formLogin.addEventListener("submit", ev => {
             }
             localStorage.setItem("token", token)
             localStorage.setItem("email", usuario.correo)
+            window.location = "chat.html"
 
         })
         .catch(err => {
@@ -48,7 +49,7 @@ function handleCredentialResponse(response) {
         console.log(resp);
         localStorage.setItem("email", resp.usuario.correo);
         localStorage.setItem("token", resp.token);
-        location.reload();
+        window.location = "chat.html"
     }).catch(console.warn);
 }
 
