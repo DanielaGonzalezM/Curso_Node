@@ -1,6 +1,6 @@
 const formLogin = document.querySelector("#formLogin");
 
-const url = "http://localhost:3000/api/auth/"
+const url = "http://localhost:3000/api/auth/";
 
 formLogin.addEventListener("submit", ev => {
     ev.preventDefault();
