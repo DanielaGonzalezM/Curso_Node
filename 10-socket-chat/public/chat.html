@@ -10,8 +10,56 @@
       integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
       crossorigin="anonymous"
     />
+    <style>
+      #dotEstadoServidor {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: #dc3545;
+        margin-right: 6px;
+      }
+      #dotEstadoServidor.online {
+        background-color: #28a745;
+      }
+    </style>
   </head>
   <body class="container">
+    <div class="row mt-5">
+      <div class="col-sm-12 d-flex align-items-center mt-3">
+        <span id="dotEstadoServidor"></span>
+        <span id="txtEstadoServidor">Servidor offline</span>
+      </div>
+      <div class="col-sm-6">
+        <h3>Enviar mensaje</h3>
+        <hr />
+        <input
+          type="text"
+          id="txtUid"
+          class="form-control mb-2"
+          placeholder="uid"
+          aoutocomplete="off"
+        />
+        <input
+          type="text"
+          id="txtMensaje"
+          class="form-control mb-2"
+          placeholder="Mensaje"
+          aoutocomplete="off"
+        />
+        <h3>Usuarios</h3>
+        <hr />
+        <ul class="ulUsuarios"></ul>
+      </div>
+      <div class="col-sm-6">
+        <h3>Chat completo</h3>
+        <hr />
+        <ul id="ulMensajes"></ul>
+      </div>
+    </div>
+
+    <button id="btnSalir" class="btn btn-outline-danger">Logout</button>
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="./js/chat.js"></script>
     <script
@@ -19,6 +67,5 @@
       integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
       crossorigin="anonymous"
     ></script>
-
   </body>
 </html>

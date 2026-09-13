@@ -62,3 +62,10 @@ button.onclick = () => {
         location.reload();
     });
 };
+
+document.addEventListener("DOMContentLoaded", (event) => {
+    const token = localStorage.getItem("token");
+    if(token.length>10){
+        window.location = "chat.html"
+    }
+});
