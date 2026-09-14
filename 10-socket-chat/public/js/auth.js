@@ -65,7 +65,7 @@ button.onclick = () => {
 
 document.addEventListener("DOMContentLoaded", (event) => {
     const token = localStorage.getItem("token");
-    if(token.length>10){
+    if(token && token.length>10){
         window.location = "chat.html"
     }
 });

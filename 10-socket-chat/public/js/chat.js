@@ -91,8 +91,8 @@ const conectarSocket = () => {
         //TODO:
     });
 
-    socket.on("usuarios-activos", () => {
-        //TODO:
+    socket.on("usuarios-activos", (payload) => {
+        console.log(payload);
     });
 
     socket.on("mensajes-privado", () => {
