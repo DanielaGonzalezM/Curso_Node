@@ -91,9 +91,7 @@ const conectarSocket = () => {
         //TODO:
     });
 
-    socket.on("usuarios-activos", (payload) => {
-        console.log(payload);
-    });
+    socket.on("usuarios-activos", dibujarUsuarios);
 
     socket.on("mensajes-privado", () => {
         //TODO:
@@ -101,6 +99,24 @@ const conectarSocket = () => {
 
 
 
+}
+
+const dibujarUsuarios = (usuarios = []) => {
+    let usersHtml = "";
+    usuarios.forEach(user => {
+        console.log(user);
+        usersHtml += `
+        <li>
+            <p>
+                <h5 class= "text-success"> ${user.nombre} </h5>
+                <span class="fs-6 text-muted">${user.uid}</span>
+            </p>
+        </li>
+        `
+    });
+
+        console.log(usersHtml);
+    ulUsuarios.innerHTML=usersHtml;
 }
 
 const main = async () => {
