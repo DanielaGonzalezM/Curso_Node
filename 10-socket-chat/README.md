@@ -1,10 +1,11 @@
-# 07 - RestServer
+# 10 - Socket Chat
 
-API REST construida con Node.js, Express y MongoDB (Mongoose). Incluye autenticación con JWT y Google Sign-In, control de roles, CRUD de usuarios/categorías/productos, búsqueda genérica por colección y carga de imágenes (almacenamiento local o Cloudinary).
+API REST construida con Node.js, Express y MongoDB (Mongoose). Incluye autenticación con JWT y Google Sign-In, control de roles, CRUD de usuarios/categorías/productos, búsqueda genérica por colección, carga de imágenes (almacenamiento local o Cloudinary) y un **chat en tiempo real con Socket.IO** (mensajes globales y privados).
 
 ## Tecnologías principales
 
 - **Express** — servidor y enrutamiento HTTP
+- **Socket.IO** — comunicación en tiempo real (chat global y mensajes privados)
 - **Mongoose** — conexión y modelado de datos en MongoDB
 - **jsonwebtoken** — generación y validación de JWT
 - **bcryptjs** — hash de contraseñas
@@ -59,15 +60,18 @@ El servidor imprimirá en consola `Corriendo en puerto <PORT>` y se conectará a
 ## Estructura del proyecto
 
 ```
-07-restserver/
+10-socket-chat/
 ├── app.js                  # Punto de entrada
 ├── database/config.js      # Conexión a MongoDB
 ├── models/                 # Modelos de Mongoose + clase Server
-│   ├── server.js           # Configuración de Express (middlewares y rutas)
+│   ├── server.js           # Configuración de Express + Socket.IO (middlewares, rutas y sockets)
 │   ├── usuario.js
 │   ├── categoria.js
 │   ├── productos.js
-│   └── role.js
+│   ├── role.js
+│   └── chat-mensajes.js    # Clase en memoria: usuarios conectados y últimos mensajes
+├── sockets/
+│   └── socketControllers.js # Lógica de conexión/desconexión y eventos de chat
 ├── routes/                 # Definición de endpoints por recurso
 ├── controllers/             # Lógica de cada endpoint
 ├── middlewares/             # validar-jws, validar-roles, validar-campos, validar-archivo
@@ -75,6 +79,11 @@ El servidor imprimirá en consola `Corriendo en puerto <PORT>` y se conectará a
 ├── uploads/                 # Imágenes subidas localmente (usuarios/productos)
 ├── assets/                  # Imagen por defecto (no-image.jpg)
 └── public/                  # Archivos estáticos servidos por Express
+    ├── index.html           # Login (correo/password o Google Sign-In)
+    ├── chat.html             # Interfaz del chat
+    └── js/
+        ├── auth.js           # Lógica de login/logout
+        └── chat.js            # Conexión al socket, chat global y mensajes privados
 ```
 
 ## Autenticación y autorización
@@ -140,6 +149,36 @@ Todas las rutas tienen como base `http://localhost:<PORT>/api`.
 | GET    | `/:coleccion/:id`   | Redirige a la imagen del usuario/producto en Cloudinary, o a la imagen por defecto si no tiene |
 
 > Nota: `actualizarImagen` y `mostrarImagen` (almacenamiento local en `uploads/`) siguen disponibles en el controlador `uploads.js` como implementación previa a la migración a Cloudinary, pero las rutas activas usan las versiones `*Cloudinary`.
+
+## Chat en tiempo real (Socket.IO)
+
+La conexión de sockets se autentica con el mismo JWT que el REST API, enviado en el header `x-token` durante el handshake (`extraHeaders` en el cliente). Si el token no es válido, el socket se desconecta de inmediato (`sockets/socketControllers.js`).
+
+Al conectarse, cada usuario se une a una sala propia (`socket.join(usuario.id)`), lo que permite enviarle mensajes privados sin que el resto del chat los vea.
+
+### Eventos emitidos por el servidor
+
+| Evento              | Payload                              | Cuándo se emite                                                   |
+| -------------------- | -------------------------------------- | -------------------------------------------------------------------- |
+| `usuarios-activos`   | Array de usuarios conectados (`uid`, `nombre`, ...) | Al conectarse o desconectarse un usuario (broadcast a todos)      |
+| `recibir-mensajes`   | Últimos 10 mensajes del chat global    | Al conectarse un usuario (solo a él) y tras cada mensaje global (broadcast) |
+| `mensajes-privado`   | `{ de, mensaje }`                       | Cuando alguien envía un mensaje privado (solo al destinatario)     |
+
+### Eventos escuchados por el servidor
+
+| Evento             | Payload            | Descripción                                                                 |
+| -------------------- | -------------------- | ------------------------------------------------------------------------------ |
+| `enviar-mensaje`    | `{ uid, mensaje }`   | Si `uid` viene informado, se envía como mensaje privado a esa sala; si no, se difunde al chat global |
+| `disconnect`        | —                    | Elimina al usuario de la lista de conectados y actualiza `usuarios-activos`  |
+
+### Front-end del chat (`public/js/chat.js`)
+
+- Valida el JWT contra `/api/auth` antes de abrir el socket; si no es válido, redirige a `index.html`.
+- Pinta la lista de usuarios conectados (excluyéndose a sí mismo) en un panel independiente; **hacer clic en un usuario** lo selecciona como destinatario de mensajes privados (un segundo clic vuelve al chat global).
+- Los mensajes privados se muestran resaltados (fondo amarillo + etiqueta "privado"), tanto los recibidos como los enviados.
+- El mensaje se envía con Enter o con el botón "Enviar"; el chat global se actualiza para todos, el privado solo es visible entre emisor y destinatario.
+
+> Nota: `chat-mensajes.js` guarda usuarios y mensajes **en memoria** (no en base de datos), por lo que el historial se pierde al reiniciar el servidor.
 
 ## Modelos de datos
 
