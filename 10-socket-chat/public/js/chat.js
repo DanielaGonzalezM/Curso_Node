@@ -86,9 +86,7 @@ const conectarSocket = () => {
         txtEstadoServidor.textContent = "Servidor offline";
     })
 
-    socket.on("recibir-mensajes", (payload) => {
-        console.log(payload);
-    });
+    socket.on("recibir-mensajes", dibujarMensajes);
 
     socket.on("usuarios-activos", dibujarUsuarios);
 
@@ -116,6 +114,21 @@ const dibujarUsuarios = (usuarios = []) => {
     ulUsuarios.innerHTML = usersHtml;
 }
 
+const dibujarMensajes = (mensajes = []) => {
+    let mensajesHtml = "";
+    mensajes.forEach(({ nombre, mensaje }) => {
+        mensajesHtml += `
+        <li>
+            <p>
+                <span class="text-primary"> ${nombre} </span>
+                <span class="fs-6 text-muted">${mensaje}</span>
+            </p>
+        </li>
+        `
+    });
+
+    ulMensajes.innerHTML = mensajesHtml;
+}
 
 txtMensaje.addEventListener("keyup", ({ keyCode }) => {
     const mensaje = txtMensaje.value;
@@ -126,7 +139,7 @@ txtMensaje.addEventListener("keyup", ({ keyCode }) => {
 
     socket.emit("enviar-mensaje", { mensaje, uid });
 
-    txtMensaje.value="";
+    txtMensaje.value = "";
 
 
 });
