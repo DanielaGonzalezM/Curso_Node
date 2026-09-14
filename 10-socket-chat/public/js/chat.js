@@ -42,7 +42,6 @@ const validarJWT = async () => {
         const data = await response.json();
         const { msg, token: tokenDB, usuario: userDB } = data;
 
-        console.log(msg, tokenDB, userDB);
 
         if (msg && !userDB) {
             localStorage.removeItem("token");
@@ -87,8 +86,8 @@ const conectarSocket = () => {
         txtEstadoServidor.textContent = "Servidor offline";
     })
 
-    socket.on("recibir-mensajes", () => {
-        //TODO:
+    socket.on("recibir-mensajes", (payload) => {
+        console.log(payload);
     });
 
     socket.on("usuarios-activos", dibujarUsuarios);
@@ -104,7 +103,6 @@ const conectarSocket = () => {
 const dibujarUsuarios = (usuarios = []) => {
     let usersHtml = "";
     usuarios.forEach(user => {
-        console.log(user);
         usersHtml += `
         <li>
             <p>
@@ -115,9 +113,23 @@ const dibujarUsuarios = (usuarios = []) => {
         `
     });
 
-        console.log(usersHtml);
-    ulUsuarios.innerHTML=usersHtml;
+    ulUsuarios.innerHTML = usersHtml;
 }
+
+
+txtMensaje.addEventListener("keyup", ({ keyCode }) => {
+    const mensaje = txtMensaje.value;
+    const uid = txtMensaje.value;
+
+    if (keyCode !== 13) { return; }
+    if (mensaje.length === 0) { return; }
+
+    socket.emit("enviar-mensaje", { mensaje, uid });
+
+    txtMensaje.value="";
+
+
+});
 
 const main = async () => {
 

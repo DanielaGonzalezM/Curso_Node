@@ -18,7 +18,6 @@ formLogin.addEventListener("submit", ev => {
     })
         .then(resp => resp.json())
         .then(({ msg, token, usuario }) => {
-            console.log(msg, token, usuario)
             if (msg) {
                 return console.error(msg);
             }
@@ -30,7 +29,6 @@ formLogin.addEventListener("submit", ev => {
         .catch(err => {
             console.log(err)
         })
-    console.log(formData);
 });
 
 

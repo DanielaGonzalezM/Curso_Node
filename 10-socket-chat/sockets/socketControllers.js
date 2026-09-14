@@ -20,6 +20,13 @@ const socketController = async (socket = new Socket, io) => {
         chatMensajes.conectarUsuario(usuario);
     })
 
+    socket.on("enviar-mensaje",({uid,mensaje})=>{
+        console.log({uid,mensaje})
+        chatMensajes.enviarMensaje(usuario.id,usuario.nombre,mensaje);
+        io.emit("recibir-mensajes", chatMensajes.ultimos10);
+
+    })
+
     io.emit("usuarios-activos", chatMensajes.usuariosArr);
 };
 
