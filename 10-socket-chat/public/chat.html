@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,6 +11,10 @@
       crossorigin="anonymous"
     />
     <style>
+      body {
+        background-color: #f4f6f9;
+      }
+
       #dotEstadoServidor {
         display: inline-block;
         width: 12px;
@@ -22,43 +26,147 @@
       #dotEstadoServidor.online {
         background-color: #28a745;
       }
+
+      .card-panel {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+      }
+
+      #ulUsuarios {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        max-height: 200px;
+        overflow-y: auto;
+      }
+
+      .usuario-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.15s ease-in-out;
+      }
+
+      .usuario-item:hover {
+        background-color: #eef2ff;
+      }
+
+      .usuario-item.activo {
+        background-color: #dbe4ff;
+      }
+
+      .usuario-nombre {
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      .usuario-uid {
+        font-size: 0.75rem;
+        color: #6c757d;
+      }
+
+      #destinatarioInfo {
+        font-size: 0.85rem;
+      }
+
+      #ulMensajes {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        max-height: 420px;
+        overflow-y: auto;
+      }
+
+      .mensaje-item {
+        margin-bottom: 8px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background-color: #f1f3f5;
+      }
+
+      .mensaje-item.privado {
+        background-color: #fff3cd;
+        border-left: 4px solid #ffc107;
+      }
+
+      .mensaje-nombre {
+        font-weight: 700;
+        color: #0d6efd;
+        font-size: 0.9rem;
+      }
+
+      .mensaje-badge {
+        font-size: 0.65rem;
+        margin-left: 6px;
+      }
+
+      .mensaje-texto {
+        font-size: 0.9rem;
+        color: #212529;
+        margin: 2px 0 0;
+        word-break: break-word;
+      }
+
+      #inputGroup {
+        position: relative;
+      }
     </style>
   </head>
-  <body class="container">
-    <div class="row mt-5">
-      <div class="col-sm-12 d-flex align-items-center mt-3">
+  <body class="container py-4">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <h2 class="m-0">💬 Chat</h2>
+      <div class="d-flex align-items-center">
         <span id="dotEstadoServidor"></span>
-        <span id="txtEstadoServidor">Servidor offline</span>
-      </div>
-      <div class="col-sm-6">
-        <h3>Enviar mensaje</h3>
-        <hr />
-        <input
-          type="text"
-          id="txtUid"
-          class="form-control mb-2"
-          placeholder="uid"
-          aoutocomplete="off"
-        />
-        <input
-          type="text"
-          id="txtMensaje"
-          class="form-control mb-2"
-          placeholder="Mensaje"
-          aoutocomplete="off"
-        />
-        <h3>Usuarios</h3>
-        <hr />
-        <ul id="ulUsuarios"></ul>
-      </div>
-      <div class="col-sm-6">
-        <h3>Chat completo</h3>
-        <hr />
-        <ul id="ulMensajes"></ul>
+        <span id="txtEstadoServidor" class="me-3">Servidor offline</span>
+        <button id="btnSalir" class="btn btn-outline-danger btn-sm">Salir</button>
       </div>
     </div>
 
-    <button id="btnSalir" class="btn btn-outline-danger">Logout</button>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="card-panel bg-white p-3 mb-3">
+          <h5 class="mb-2">Usuarios conectados</h5>
+          <hr class="mt-1" />
+          <ul id="ulUsuarios">
+            <li class="text-muted small">Cargando usuarios...</li>
+          </ul>
+        </div>
+
+        <div class="card-panel bg-white p-3">
+          <h5 class="mb-2">Enviar mensaje</h5>
+          <hr class="mt-1" />
+          <div id="destinatarioInfo" class="alert alert-secondary py-1 px-2 mb-2">
+            Enviando a: <strong id="destinatarioNombre">Todos (Chat global)</strong>
+            <button id="btnLimpiarDestinatario" class="btn btn-link btn-sm p-0 ms-2 d-none">Cancelar</button>
+          </div>
+          <input type="hidden" id="txtUid" value="" />
+          <div id="inputGroup" class="input-group">
+            <input
+              type="text"
+              id="txtMensaje"
+              class="form-control"
+              placeholder="Escribe un mensaje..."
+              autocomplete="off"
+            />
+            <button id="btnEnviar" class="btn btn-primary">Enviar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="card-panel bg-white p-3">
+          <h5 class="mb-2">Conversación</h5>
+          <hr class="mt-1" />
+          <ul id="ulMensajes">
+            <li class="text-muted small">Aún no hay mensajes...</li>
+          </ul>
+        </div>
+      </div>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="./js/chat.js"></script>
