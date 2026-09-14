@@ -90,8 +90,8 @@ const conectarSocket = () => {
 
     socket.on("usuarios-activos", dibujarUsuarios);
 
-    socket.on("mensajes-privado", () => {
-        //TODO:
+    socket.on("mensajes-privado", (payload) => {
+        console.log(payload)
     });
 
 
@@ -132,7 +132,7 @@ const dibujarMensajes = (mensajes = []) => {
 
 txtMensaje.addEventListener("keyup", ({ keyCode }) => {
     const mensaje = txtMensaje.value;
-    const uid = txtMensaje.value;
+    const uid = txtUid.value;
 
     if (keyCode !== 13) { return; }
     if (mensaje.length === 0) { return; }
