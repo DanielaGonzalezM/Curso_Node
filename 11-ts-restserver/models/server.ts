@@ -1,6 +1,7 @@
 import express, { Application } from "express";
 import userRoutes from "../routes/usuario";
 import cors from "cors";
+import db from "../db/connection";
 
 class Server {
   private app: Application;
@@ -11,15 +12,23 @@ class Server {
 
   constructor() {
     this.app = express();
-    this.port = process.env.PORT || "3000";
+    this.port = process.env.PORT || "3001";
+    //Connecion db
+    this.dbConnection();
     //middlewares
     this.moddleware();
     //definir mis rutas
     this.route();
   }
 
-  //TODO: Conectar base de datos
-
+  async dbConnection() {
+    try {
+      await db.authenticate();
+      console.log("DB Conectada");
+    } catch (error) {
+      throw new Error(String(error));
+    }
+  }
   moddleware() {
     //CORS
     this.app.use(cors({}));

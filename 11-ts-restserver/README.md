@@ -7,6 +7,7 @@ npm i typescript --save-dev
 npm i express cors dotenv
 npm i --save-dev @types/express
 npm i --save-dev @types/cors
-
+npm i --save sequelize
+npm install --save pg pg-hstore
 
 tsc --watch
