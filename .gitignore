@@ -10,3 +10,5 @@ node_modules/
 08-websocket-server/.env
 09-socket-colas/.env
 10-socket-chat/.env
+11-ts-restserver/.env
+11-ts-restserver/dist/
