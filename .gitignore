@@ -1,14 +1,9 @@
 node_modules/
+.env
+package-lock.json
 03-bases-node/salida/*.txt
 04-tareas-hacer/db/data.json
-05-clima-app/.env
 05-clima-app/db/database.json
-06-webserver/.env
-07-restserver/.env
 07-restserver/uploads/productos/**.*
 07-restserver/uploads/usuarios/**.*
-08-websocket-server/.env
-09-socket-colas/.env
-10-socket-chat/.env
-11-ts-restserver/.env
 11-ts-restserver/dist/
